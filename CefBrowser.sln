@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CefBrowser", "CefBrowser\CefBrowser.vcproj", "{17699517-738B-4EE8-9840-940E293D9505}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9D6DC71-C0DC-4549-AEA0-3B15B44E86A9} = {A9D6DC71-C0DC-4549-AEA0-3B15B44E86A9}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcef_dll_wrapper", "Libcef\libcef_dll\libcef_dll_wrapper.vcproj", "{A9D6DC71-C0DC-4549-AEA0-3B15B44E86A9}"
 EndProject

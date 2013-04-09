@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\client_switches.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -217,6 +221,18 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\TabHost.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XClientApp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XUtil.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -232,6 +248,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\client_switches.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Resource.h"
 				>
 			</File>
@@ -240,7 +260,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TabHost.h"
+				>
+			</File>
+			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XClientApp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XUtil.h"
 				>
 			</File>
 		</Filter>

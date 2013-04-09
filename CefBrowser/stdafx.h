@@ -39,8 +39,13 @@
 
 
 
+#include "include\cef_base.h"
+#include "include\cef_app.h"
+#include "include\cef_browser.h"
+#include "include\cef_web_plugin.h"
 
-
+#pragma comment(lib, "libcef.lib")
+#pragma comment(lib, "libcef.lib")
 
 
 
