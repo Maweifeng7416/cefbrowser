@@ -11,5 +11,7 @@ public:
     XClientApp(void);
     ~XClientApp(void);
 
+    virtual void OnBrowserCreated(CefRefPtr<CefBrowser> browser);
+
     IMPLEMENT_REFCOUNTING(ClientApp);
 };

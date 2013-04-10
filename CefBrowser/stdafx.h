@@ -38,16 +38,20 @@
 #include <afxcontrolbars.h>     // 功能区和控件条的 MFC 支持
 
 
-
-#include "include\cef_base.h"
 #include "include\cef_app.h"
+#include "include\cef_base.h"
+#include "include\cef_client.h"
 #include "include\cef_browser.h"
+#include "include\cef_runnable.h"
 #include "include\cef_web_plugin.h"
 
 #pragma comment(lib, "libcef.lib")
 #pragma comment(lib, "libcef.lib")
 
+#include <LogClient.h>
 
+#include "../../DotShare/WndLayout.h"
+#include "../../DotShare/WndContainer.h"
 
 
 #ifdef _UNICODE

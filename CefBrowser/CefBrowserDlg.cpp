@@ -6,6 +6,8 @@
 #include "CefBrowser.h"
 #include "CefBrowserDlg.h"
 
+#include "XGlobal.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -62,7 +64,12 @@ BEGIN_MESSAGE_MAP(CCefBrowserDlg, CDialog)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+    ON_WM_CLOSE()
+    ON_WM_ERASEBKGND()
+    ON_WM_CTLCOLOR()
+    ON_BN_CLICKED(IDC_TAB_BUTTON, &CCefBrowserDlg::OnBtnTabClicked)
 	//}}AFX_MSG_MAP
+    ON_BN_CLICKED(IDOK, &CCefBrowserDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -97,7 +104,17 @@ BOOL CCefBrowserDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	// TODO: 在此添加额外的初始化代码
+    // TODO: 在此添加额外的初始化代码
+
+    XGlobal::inst().WndLayout.Init(m_hWnd);
+    XGlobal::inst().WndLayout.AddControlById(IDC_EDIT_URL, Layout_HFill | Layout_Top);
+    XGlobal::inst().WndLayout.AddControlById(IDOK, Layout_Top | Layout_Right);
+    XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BROWSER, Layout_HFill | Layout_VFill);
+    XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BUTTONS, Layout_HFill | Layout_Top);
+
+    HWND hEditUrlWnd = GetDlgItem(IDC_EDIT_URL)->GetSafeHwnd();
+    XGlobal::inst().TabHost.Init(m_hWnd, hEditUrlWnd);
+    XGlobal::inst().TabHost.OpenUrl(_T("http://www.youku.com"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -140,7 +157,11 @@ void CCefBrowserDlg::OnPaint()
 	}
 	else
 	{
-		CDialog::OnPaint();
+		CPaintDC dc(this);
+
+        RECT rcClient;
+        ::GetClientRect(m_hWnd, &rcClient);
+        ::FillRect(dc.GetSafeHdc(), &rcClient, (HBRUSH)::GetStockObject(WHITE_BRUSH));
 	}
 }
 
@@ -151,3 +172,39 @@ HCURSOR CCefBrowserDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CCefBrowserDlg::OnClose()
+{
+    XGlobal::inst().TabHost.Destroy();
+    ::PostQuitMessage(0);
+    CDialog::OnClose();
+}
+
+BOOL CCefBrowserDlg::OnEraseBkgnd(CDC* pDC)
+{
+    return 1;
+}
+
+HBRUSH CCefBrowserDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+    if(nCtlColor == CTLCOLOR_STATIC)
+    {
+        pDC->SetBkMode(TRANSPARENT);
+        return (HBRUSH)::GetStockObject(NULL_BRUSH);
+    }
+    else
+    {
+        return CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+    }
+}
+
+void CCefBrowserDlg::OnBtnTabClicked()
+{
+    XGlobal::inst().TabHost.ShowTab(::GetFocus());
+}
+
+void CCefBrowserDlg::OnBnClickedOk()
+{
+    CString strUrl;
+    GetDlgItemText(IDC_EDIT_URL, strUrl);
+    XGlobal::inst().TabHost.OpenUrl(strUrl);
+}

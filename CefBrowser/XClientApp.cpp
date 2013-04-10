@@ -8,3 +8,9 @@ XClientApp::XClientApp(void)
 XClientApp::~XClientApp(void)
 {
 }
+
+void XClientApp::OnBrowserCreated(CefRefPtr<CefBrowser> browser)
+{
+
+}
+
