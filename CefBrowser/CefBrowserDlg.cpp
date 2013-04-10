@@ -47,6 +47,20 @@ END_MESSAGE_MAP()
 // CCefBrowserDlg 对话框
 
 
+//////////////////////////////////////////////////////////////////////////
+
+WNDPROC g_OldEditProc = NULL;
+LRESULT WINAPI EditWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if(message == WM_CHAR && wParam == VK_RETURN)
+    {
+        ::PostMessage(::GetParent(hWnd), WM_COMMAND, MAKELONG(IDOK, BN_CLICKED), (LPARAM)hWnd);
+        return 0;
+    }
+    return ::CallWindowProc(g_OldEditProc, hWnd, message, wParam, lParam);
+}
+
+//////////////////////////////////////////////////////////////////////////
 
 
 CCefBrowserDlg::CCefBrowserDlg(CWnd* pParent /*=NULL*/)
@@ -106,13 +120,17 @@ BOOL CCefBrowserDlg::OnInitDialog()
 
     // TODO: 在此添加额外的初始化代码
 
+    // 
+    HWND hEditUrlWnd = GetDlgItem(IDC_EDIT_URL)->GetSafeHwnd();
+    g_OldEditProc = (WNDPROC)::SetWindowLongPtr(hEditUrlWnd, GWLP_WNDPROC, (LONG_PTR)&EditWindowProc);
+
+    // 
     XGlobal::inst().WndLayout.Init(m_hWnd);
     XGlobal::inst().WndLayout.AddControlById(IDC_EDIT_URL, Layout_HFill | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDOK, Layout_Top | Layout_Right);
     XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BROWSER, Layout_HFill | Layout_VFill);
     XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BUTTONS, Layout_HFill | Layout_Top);
 
-    HWND hEditUrlWnd = GetDlgItem(IDC_EDIT_URL)->GetSafeHwnd();
     XGlobal::inst().TabHost.Init(m_hWnd, hEditUrlWnd);
     XGlobal::inst().TabHost.OpenUrl(_T("http://www.youku.com"));
 

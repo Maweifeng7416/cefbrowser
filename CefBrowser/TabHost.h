@@ -24,7 +24,7 @@ public:
 
     void CreateTab(LPCTSTR szUrl);
     void AddTab(CefRefPtr<CefBrowser> browser, CefWindowInfo* info);
-    void DeleteTab(HWND hWndTabButton);
+    void RemoveTab(CefRefPtr<CefBrowser> browser);
 
     void OpenUrl(LPCTSTR szUrl);
 
@@ -38,6 +38,8 @@ protected:
 
     stTabInfo* GetTabInfoByButton(HWND hWndButton);
     stTabInfo* GetTabInfoByBrowser(const CefRefPtr<CefBrowser> browser);
+    TabInfoVector::iterator GetTabInfoByButtonEx(HWND hWndButton);
+    TabInfoVector::iterator GetTabInfoByBrowserEx(const CefRefPtr<CefBrowser> browser);
 
 protected:
     HWND    m_hWndHost;

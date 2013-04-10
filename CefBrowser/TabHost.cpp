@@ -119,6 +119,27 @@ void CTabHost::AddTab(CefRefPtr<CefBrowser> browser, CefWindowInfo* info)
     }
 }
 
+void CTabHost::RemoveTab(CefRefPtr<CefBrowser> browser)
+{
+    TabInfoVector::iterator ite = GetTabInfoByBrowserEx(browser);
+    if(ite == m_vctTabInfo.end())
+        return;
+
+    stTabInfo& info = *ite;
+    m_BtnLayout.Remove(info.hWndButton);
+    m_BrowLayout.RemoveControlByHwnd(info.hWndBrowser);
+    ::DestroyWindow(info.hWndButton);
+    m_vctTabInfo.erase(ite);
+
+    if(m_hVisibleBrowser == browser->GetHost()->GetWindowHandle())
+    {
+        m_hVisibleBrowser = m_hVisibleTabButton = NULL;
+    }
+
+    if(m_vctTabInfo.size() > 0)
+        ShowTab(m_vctTabInfo[0].hWndButton);
+}
+
 void CTabHost::AddTabTask(CTabHost* pTabHost, CefRefPtr<CefBrowser> browser)
 {
     pTabHost->AddTabImpl(browser);
@@ -155,11 +176,6 @@ void CTabHost::AddTabImpl(CefRefPtr<CefBrowser> browser)
     XOutputLog1(_T("AddTab"), _T("Button: 0x%08x, Browser: 0x%08x"), tab.hWndButton, tab.hWndBrowser);
 
     ShowTab(hWndButton);
-}
-
-void CTabHost::DeleteTab(HWND hWndTabButton)
-{
-    ;
 }
 
 void CTabHost::OpenUrl(LPCTSTR szUrl)
@@ -204,25 +220,42 @@ void CTabHost::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& tit
 
 stTabInfo* CTabHost::GetTabInfoByButton(HWND hWndButton)
 {
+    TabInfoVector::iterator ite = GetTabInfoByButtonEx(hWndButton);
+    if(ite == m_vctTabInfo.end())
+        return NULL;
+    else
+        return (&(*ite));
+}
+
+stTabInfo* CTabHost::GetTabInfoByBrowser(const CefRefPtr<CefBrowser> browser)
+{
+    TabInfoVector::iterator ite = GetTabInfoByBrowserEx(browser);
+    if(ite == m_vctTabInfo.end())
+        return NULL;
+    else
+        return (&(*ite));
+}
+
+TabInfoVector::iterator CTabHost::GetTabInfoByButtonEx(HWND hWndButton)
+{
     TabInfoVector::iterator ite = m_vctTabInfo.begin();
     for(; ite != m_vctTabInfo.end(); ++ ite)
     {
         stTabInfo& info = *ite;
         if(info.hWndButton == hWndButton)
-            return &info;
+            break;
     }
-    return NULL;
+    return ite;
 }
 
-stTabInfo* CTabHost::GetTabInfoByBrowser(const CefRefPtr<CefBrowser> browser)
+TabInfoVector::iterator CTabHost::GetTabInfoByBrowserEx(const CefRefPtr<CefBrowser> browser)
 {
     TabInfoVector::iterator ite = m_vctTabInfo.begin();
     for(; ite != m_vctTabInfo.end(); ++ ite)
     {
         stTabInfo& info = *ite;
         if(info.browser->IsSame(browser))
-            return &info;
+            break;
     }
-    return NULL;
+    return ite;
 }
-

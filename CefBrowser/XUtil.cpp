@@ -26,13 +26,15 @@ void AppGetSettings(CefSettings& settings)
     if (!g_command_line.get())
         return;
 
-    CefString str;
+    settings.single_process = false;
+    CefString(&settings.cache_path) = L"E:\\Test\\CefBrowser";
+    settings.remote_debugging_port = 9009;
+    CefString(&settings.locale) = L"zh-CN";
+    CefString(&settings.log_file) = L"E:\\Test\\CefBrowser\\CefBrowser.log";
+    settings.log_severity = LOGSEVERITY_ERROR;
 
 #if defined(OS_WIN)
     settings.multi_threaded_message_loop =
         g_command_line->HasSwitch(cefclient::kMultiThreadedMessageLoop);
 #endif
-
-    CefString(&settings.cache_path) =
-        g_command_line->GetSwitchValue(cefclient::kCachePath);
 }

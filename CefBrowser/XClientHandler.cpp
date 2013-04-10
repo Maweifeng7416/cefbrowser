@@ -46,7 +46,7 @@ bool XClientHandler::DoClose(CefRefPtr<CefBrowser> browser)
 
 void XClientHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 {
-    ;
+    XGlobal::inst().TabHost.RemoveTab(browser);
 }
 
 bool XClientHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect)
