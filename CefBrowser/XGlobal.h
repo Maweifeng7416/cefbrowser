@@ -17,7 +17,8 @@ public:
     static XGlobal& inst();
 
 public:
-    CTabHost    TabHost;
-    CefRefPtr<XClientHandler> ClientHandler;
-    CWndLayout      WndLayout;
+    CTabHost                    TabHost;
+    CWndLayout                  WndLayout;
+    CefRefPtr<XClientHandler>   ClientHandler;
+    CefRefPtr<CefCommandLine>   CommandLine;
 };

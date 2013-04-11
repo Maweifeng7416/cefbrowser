@@ -60,14 +60,8 @@ BOOL CCefBrowserApp::InitInstance()
         CefInitialize(main_args, settings, app.get());
 
 
-        {
-            TCHAR szNPSWF[MAX_PATH];
-            ::GetModuleFileName(::GetModuleHandle(NULL), szNPSWF, MAX_PATH);
-            *(_tcsrchr(szNPSWF, _T('\\')) + 1) = 0;
-            _tcscat(szNPSWF, _T("NPSWF32_11_6_602_180.dll"));
-            CefAddWebPluginPath(szNPSWF);
-            CefRefreshWebPlugins();
-        }
+        // Init plugins, like Flash etc.
+        InitWebPlugins();
     }
 
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要

@@ -46,12 +46,11 @@
 #include "include\cef_web_plugin.h"
 
 #pragma comment(lib, "libcef.lib")
-#pragma comment(lib, "libcef.lib")
 
 #include <LogClient.h>
 
-#include "../../DotShare/WndLayout.h"
-#include "../../DotShare/WndContainer.h"
+#include "../Share/WndLayout.h"
+#include "../Share/WndContainer.h"
 
 
 #ifdef _UNICODE

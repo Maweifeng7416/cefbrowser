@@ -226,14 +226,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\DotShare\WndContainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\DotShare\WndLayout.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\XClientApp.cpp"
 				>
 			</File>
@@ -284,14 +276,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\DotShare\WndContainer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\DotShare\WndLayout.h"
-				>
-			</File>
-			<File
 				RelativePath=".\XClientApp.h"
 				>
 			</File>
@@ -323,6 +307,26 @@
 			</File>
 			<File
 				RelativePath=".\res\CefBrowser.rc2"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="share"
+			>
+			<File
+				RelativePath="..\share\WndContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\share\WndContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\share\WndLayout.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\share\WndLayout.h"
 				>
 			</File>
 		</Filter>
