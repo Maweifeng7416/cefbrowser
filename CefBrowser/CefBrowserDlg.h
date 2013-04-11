@@ -33,7 +33,11 @@ protected:
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
     afx_msg void OnBtnTabClicked();
+    afx_msg void OnBtnTabDoubleClicked();
 	DECLARE_MESSAGE_MAP()
 public:
     afx_msg void OnBnClickedOk();
+    afx_msg void OnBnClickedBtnBack();
+    afx_msg void OnBnClickedBtnRefresh();
+    afx_msg void OnBnClickedBtnForward();
 };

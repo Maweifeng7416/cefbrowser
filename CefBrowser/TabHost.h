@@ -17,19 +17,29 @@ public:
     CTabHost();
     ~CTabHost(void);
 
-    void Init(HWND hWndHost, HWND hEditUrlWnd);
+    void Init(HWND hWndHost);
     void Destroy();
 
+    // Tab管理
     void ShowTab(HWND hTabButton);
 
+    void OpenUrl(LPCTSTR szUrl);
     void CreateTab(LPCTSTR szUrl);
     void AddTab(CefRefPtr<CefBrowser> browser, CefWindowInfo* info);
+    // 由网页主动提出删除自己时，调用本方法
     void RemoveTab(CefRefPtr<CefBrowser> browser);
+    // 用户要求关闭Tab时，调用本方法
+    void CloseTab(HWND hWndButton);
 
-    void OpenUrl(LPCTSTR szUrl);
-
+    // 事件响应
+    void OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward);
     void OnAddressChange(CefRefPtr<CefBrowser> browser, const CefString& url);
     void OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& title);
+
+    // 浏览器动作
+    void GoBack();
+    void GoForward();
+    void Refresh();
 
 protected:
     void GetBrowserRect(RECT& rcBrowser);
@@ -44,6 +54,10 @@ protected:
 protected:
     HWND    m_hWndHost;
     HWND    m_hEditUrlWnd;
+
+    HWND    m_hBtnBack;
+    HWND    m_hBtnForward;
+    HWND    m_hBtnRefresh;
 
     HWND    m_hVisibleTabButton;
     HWND    m_hVisibleBrowser;

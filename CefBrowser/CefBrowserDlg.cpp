@@ -82,8 +82,12 @@ BEGIN_MESSAGE_MAP(CCefBrowserDlg, CDialog)
     ON_WM_ERASEBKGND()
     ON_WM_CTLCOLOR()
     ON_BN_CLICKED(IDC_TAB_BUTTON, &CCefBrowserDlg::OnBtnTabClicked)
+    ON_BN_DOUBLECLICKED(IDC_TAB_BUTTON, &CCefBrowserDlg::OnBtnTabDoubleClicked)
 	//}}AFX_MSG_MAP
     ON_BN_CLICKED(IDOK, &CCefBrowserDlg::OnBnClickedOk)
+    ON_BN_CLICKED(IDC_BTN_BACK, &CCefBrowserDlg::OnBnClickedBtnBack)
+    ON_BN_CLICKED(IDC_BTN_REFRESH, &CCefBrowserDlg::OnBnClickedBtnRefresh)
+    ON_BN_CLICKED(IDC_BTN_FORWARD, &CCefBrowserDlg::OnBnClickedBtnForward)
 END_MESSAGE_MAP()
 
 
@@ -129,9 +133,8 @@ BOOL CCefBrowserDlg::OnInitDialog()
     XGlobal::inst().WndLayout.AddControlById(IDC_EDIT_URL, Layout_HFill | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDOK, Layout_Top | Layout_Right);
     XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BROWSER, Layout_HFill | Layout_VFill);
-    XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BUTTONS, Layout_HFill | Layout_Top);
 
-    XGlobal::inst().TabHost.Init(m_hWnd, hEditUrlWnd);
+    XGlobal::inst().TabHost.Init(m_hWnd);
     XGlobal::inst().TabHost.OpenUrl(_T("http://www.youku.com"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -220,9 +223,29 @@ void CCefBrowserDlg::OnBtnTabClicked()
     XGlobal::inst().TabHost.ShowTab(::GetFocus());
 }
 
+void CCefBrowserDlg::OnBtnTabDoubleClicked()
+{
+    XGlobal::inst().TabHost.CloseTab(::GetFocus());
+}
+
 void CCefBrowserDlg::OnBnClickedOk()
 {
     CString strUrl;
     GetDlgItemText(IDC_EDIT_URL, strUrl);
     XGlobal::inst().TabHost.OpenUrl(strUrl);
+}
+
+void CCefBrowserDlg::OnBnClickedBtnBack()
+{
+    XGlobal::inst().TabHost.GoBack();
+}
+
+void CCefBrowserDlg::OnBnClickedBtnRefresh()
+{
+    XGlobal::inst().TabHost.Refresh();
+}
+
+void CCefBrowserDlg::OnBnClickedBtnForward()
+{
+    XGlobal::inst().TabHost.GoForward();
 }

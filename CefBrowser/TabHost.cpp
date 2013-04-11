@@ -7,19 +7,24 @@
 
 CTabHost::CTabHost()
 {
-    m_hEditUrlWnd = m_hWndHost = m_hVisibleBrowser = m_hVisibleTabButton = NULL;
+    m_hBtnBack = m_hBtnForward = m_hBtnRefresh =
+    m_hEditUrlWnd = m_hWndHost =
+    m_hVisibleBrowser = m_hVisibleTabButton = NULL;
 }
 
 CTabHost::~CTabHost(void)
 {
 }
 
-void CTabHost::Init(HWND hWndHost, HWND hEditUrlWnd)
+void CTabHost::Init(HWND hWndHost)
 {
     m_hWndHost = hWndHost;
-    m_hEditUrlWnd = hEditUrlWnd;
 
-    // m_hBtnContainer = ::GetDlgItem(m_hWndHost, IDC_FRAME_BUTTONS);
+    m_hEditUrlWnd = ::GetDlgItem(hWndHost, IDC_EDIT_URL);
+    m_hBtnBack = ::GetDlgItem(hWndHost, IDC_BTN_BACK);
+    m_hBtnForward = ::GetDlgItem(hWndHost, IDC_BTN_FORWARD);
+    m_hBtnRefresh = ::GetDlgItem(hWndHost, IDC_BTN_REFRESH);
+
     m_hBtnContainer = m_hWndHost;
     RECT rcButtons = {0, 30, 0, 0};
     m_BtnLayout.Init(m_hWndHost, rcButtons, &HorzWindowMethod);
@@ -74,6 +79,10 @@ void CTabHost::ShowTab(HWND hTabButton)
             {
                 ::SendMessage(m_hVisibleTabButton, BM_SETCHECK, BST_CHECKED, 0);
                 m_hVisibleBrowser = info.hWndBrowser;
+
+                // 同步按钮状态
+                ::EnableWindow(m_hBtnBack, info.browser->CanGoBack());
+                ::EnableWindow(m_hBtnForward, info.browser->CanGoForward());
             }
             else
             {
@@ -140,6 +149,29 @@ void CTabHost::RemoveTab(CefRefPtr<CefBrowser> browser)
         ShowTab(m_vctTabInfo[0].hWndButton);
 }
 
+// 用户要求关闭Tab时，调用本方法
+void CTabHost::CloseTab(HWND hWndButton)
+{
+    TabInfoVector::iterator ite = GetTabInfoByButtonEx(hWndButton);
+    if(ite == m_vctTabInfo.end())
+        return;
+
+    stTabInfo& info = *ite;
+    m_BtnLayout.Remove(info.hWndButton);
+    m_BrowLayout.RemoveControlByHwnd(info.hWndBrowser);
+    ::DestroyWindow(info.hWndButton);
+
+    if(m_hVisibleBrowser == info.browser->GetHost()->GetWindowHandle())
+    {
+        m_hVisibleBrowser = m_hVisibleTabButton = NULL;
+    }
+    info.browser->GetHost()->CloseBrowser();
+    m_vctTabInfo.erase(ite);
+
+    if(m_vctTabInfo.size() > 0)
+        ShowTab(m_vctTabInfo[0].hWndButton);
+}
+
 void CTabHost::AddTabTask(CTabHost* pTabHost, CefRefPtr<CefBrowser> browser)
 {
     pTabHost->AddTabImpl(browser);
@@ -151,7 +183,7 @@ void CTabHost::AddTabImpl(CefRefPtr<CefBrowser> browser)
 
     HWND hWndButton = ::CreateWindow(WC_BUTTON,
         _T("正在加载..."),
-        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_AUTORADIOBUTTON | BS_LEFT | BS_FLAT | WS_BORDER,
+        WS_BORDER | WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | BS_AUTORADIOBUTTON | BS_LEFT | BS_FLAT | BS_NOTIFY,
         0, 0,
         100, 22,
         m_hBtnContainer,
@@ -198,6 +230,17 @@ void CTabHost::GetBrowserRect(RECT& rcBrowser)
     ::OffsetRect(&rcBrowser, -rcBrowser.left, -rcBrowser.top);
 }
 
+//////////////////////////////////////////////////////////////////////////
+// 事件响应
+void CTabHost::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoading, bool canGoBack, bool canGoForward)
+{
+    if(browser->GetHost()->GetWindowHandle() != m_hVisibleBrowser)
+        return;
+
+    ::EnableWindow(m_hBtnBack, canGoBack);
+    ::EnableWindow(m_hBtnForward, canGoForward);
+}
+
 void CTabHost::OnAddressChange(CefRefPtr<CefBrowser> browser, const CefString& url)
 {
     if(browser->GetHost()->GetWindowHandle() != m_hVisibleBrowser)
@@ -216,6 +259,35 @@ void CTabHost::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString& tit
         return;
 
     SetWindowText(m_hWndHost, title.c_str());
+}
+
+//////////////////////////////////////////////////////////////////////////
+// 浏览器动作
+void CTabHost::GoBack()
+{
+    stTabInfo* info = GetTabInfoByButton(m_hVisibleTabButton);
+    if(info == NULL)
+        return;
+
+    info->browser->GoBack();
+}
+
+void CTabHost::GoForward()
+{
+    stTabInfo* info = GetTabInfoByButton(m_hVisibleTabButton);
+    if(info == NULL)
+        return;
+
+    info->browser->GoForward();
+}
+
+void CTabHost::Refresh()
+{
+    stTabInfo* info = GetTabInfoByButton(m_hVisibleTabButton);
+    if(info == NULL)
+        return;
+
+    info->browser->Reload();
 }
 
 stTabInfo* CTabHost::GetTabInfoByButton(HWND hWndButton)

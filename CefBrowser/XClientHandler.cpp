@@ -74,6 +74,14 @@ void XClientHandler::OnPaint(CefRefPtr<CefBrowser> browser,
 
 //////////////////////////////////////////////////////////////////////////
 // CefDisplayHandler methods
+void XClientHandler::OnLoadingStateChange(CefRefPtr<CefBrowser> browser,
+                                  bool isLoading,
+                                  bool canGoBack,
+                                  bool canGoForward)
+{
+    XGlobal::inst().TabHost.OnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+}
+
 void XClientHandler::OnAddressChange(CefRefPtr<CefBrowser> browser,
                              CefRefPtr<CefFrame> frame,
                              const CefString& url)
