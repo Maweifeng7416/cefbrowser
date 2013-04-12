@@ -4,14 +4,21 @@
 
 
 class XClientApp : public CefApp,
-    public CefBrowserProcessHandler,
     public CefRenderProcessHandler
 {
 public:
     XClientApp(void);
     ~XClientApp(void);
 
-    virtual void OnBrowserCreated(CefRefPtr<CefBrowser> browser);
+    virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() {
+        return this;
+    }
 
-    IMPLEMENT_REFCOUNTING(ClientApp);
+    // CefRenderProcessHandler
+    virtual void OnWebKitInitialized();
+    virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+        CefProcessId source_process,
+        CefRefPtr<CefProcessMessage> message);
+
+    IMPLEMENT_REFCOUNTING(XClientApp);
 };

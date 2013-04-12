@@ -3,6 +3,7 @@
 
 
 #include "XGlobal.h"
+#include "XUtil.h"
 
 
 XClientHandler::XClientHandler(void)
@@ -96,4 +97,27 @@ void XClientHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
                            const CefString& title)
 {
     XGlobal::inst().TabHost.OnTitleChange(browser, title.c_str());
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// CefRequestHandler
+CefRefPtr<CefResourceHandler> XClientHandler::GetResourceHandler(
+    CefRefPtr<CefBrowser> browser,
+    CefRefPtr<CefFrame> frame,
+    CefRefPtr<CefRequest> request)
+{
+    const wchar_t* const prefix = L"http://test/";
+    const size_t prefix_length = 12;
+    std::wstring strUrl = request->GetURL().ToWString();
+    if(strUrl.find(prefix) == 0)
+    {
+        strUrl.erase(0, prefix_length);
+
+        CefRefPtr<CefStreamReader> stream = GetBinaryResourceReader(RT_HTML, strUrl.c_str());
+        ASSERT(stream.get());
+        return new CefStreamResourceHandler("text/html", stream);
+    }
+
+    return NULL;
 }

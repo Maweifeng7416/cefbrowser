@@ -198,10 +198,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\client_switches.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -225,22 +221,6 @@
 				RelativePath=".\TabHost.cpp"
 				>
 			</File>
-			<File
-				RelativePath=".\XClientApp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\XClientHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\XGlobal.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\XUtil.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -253,10 +233,6 @@
 			</File>
 			<File
 				RelativePath=".\CefBrowserDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\client_switches.h"
 				>
 			</File>
 			<File
@@ -275,28 +251,17 @@
 				RelativePath=".\targetver.h"
 				>
 			</File>
-			<File
-				RelativePath=".\XClientApp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\XClientHandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\XGlobal.h"
-				>
-			</File>
-			<File
-				RelativePath=".\XUtil.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\res\app.js"
+				DeploymentContent="true"
+				>
+			</File>
 			<File
 				RelativePath=".\res\CefBrowser.ico"
 				>
@@ -307,6 +272,11 @@
 			</File>
 			<File
 				RelativePath=".\res\CefBrowser.rc2"
+				>
+			</File>
+			<File
+				RelativePath=".\res\testapp.html"
+				DeploymentContent="true"
 				>
 			</File>
 		</Filter>
@@ -327,6 +297,62 @@
 			</File>
 			<File
 				RelativePath="..\share\WndLayout.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="utils"
+			>
+			<File
+				RelativePath=".\XGlobal.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XGlobal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XUtil.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="cef"
+			>
+			<File
+				RelativePath=".\client_switches.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\client_switches.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XAppExtentionHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XAppExtentionHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XClientApp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XClientApp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XClientHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XClientHandler.h"
 				>
 			</File>
 		</Filter>

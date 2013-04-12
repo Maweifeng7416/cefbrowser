@@ -26,6 +26,10 @@ public:
     {
         return this;
     }
+    virtual CefRefPtr<CefRequestHandler> GetRequestHandler()
+    {
+        return this;
+    }
 
     // CefLifeSpanHandler methods
     virtual bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
@@ -63,6 +67,12 @@ public:
         const CefString& url) OVERRIDE;
     virtual void OnTitleChange(CefRefPtr<CefBrowser> browser,
         const CefString& title) OVERRIDE;
+
+    // CefRequestHandler
+    virtual CefRefPtr<CefResourceHandler> GetResourceHandler(
+        CefRefPtr<CefBrowser> browser,
+        CefRefPtr<CefFrame> frame,
+        CefRefPtr<CefRequest> request);
 
     // Include the default reference counting implementation.
     IMPLEMENT_REFCOUNTING(XClientHandler);

@@ -205,7 +205,6 @@ void CTabHost::AddTabImpl(CefRefPtr<CefBrowser> browser)
     m_BrowLayout.AddControlByHwnd(tab.hWndBrowser, Layout_HFill | Layout_VFill);
 
     m_vctTabInfo.push_back(tab);
-    XOutputLog1(_T("AddTab"), _T("Button: 0x%08x, Browser: 0x%08x"), tab.hWndButton, tab.hWndBrowser);
 
     ShowTab(hWndButton);
 }

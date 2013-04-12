@@ -59,7 +59,6 @@ BOOL CCefBrowserApp::InitInstance()
         // Initialize CEF.
         CefInitialize(main_args, settings, app.get());
 
-
         // Init plugins, like Flash etc.
         InitWebPlugins();
     }
