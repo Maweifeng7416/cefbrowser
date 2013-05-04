@@ -28,6 +28,12 @@ protected:
         CefRefPtr<CefV8Value>& retval,
         CefString& exception);
 
+    // JS中要求执行类似thunder://协议对应的命令
+    void ExecProtocal(CefRefPtr<CefV8Value> object,
+        const CefV8ValueList& arguments,
+        CefRefPtr<CefV8Value>& retval,
+        CefString& exception);
+
 protected:
     // 
     struct stCallbackInfo

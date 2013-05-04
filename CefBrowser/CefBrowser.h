@@ -21,8 +21,9 @@ public:
 	CCefBrowserApp();
 
 // ÷ÿ–¥
-	public:
-	virtual BOOL InitInstance();
+public:
+    virtual BOOL InitInstance();
+    virtual int ExitInstance();
 
 //  µœ÷
 

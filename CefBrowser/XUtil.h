@@ -1,6 +1,8 @@
 #pragma once
 
 
+
+
 // 初始化全局命令行对象
 void AppInitCommandLine(int argc, const char* const* argv);
 
@@ -19,3 +21,7 @@ void InitWebPlugins();
 // 加载Exe中的资源
 bool LoadStringResource(const wchar_t* type, CefString name, CefString& strData);
 CefRefPtr<CefStreamReader> GetBinaryResourceReader(const wchar_t* type, CefString name);
+
+
+void ReplaceToken(std::wstring& str, std::wstring& oldToken, std::wstring& newToken);
+

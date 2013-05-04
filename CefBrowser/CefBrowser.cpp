@@ -95,3 +95,16 @@ BOOL CCefBrowserApp::InitInstance()
 	//  而不是启动应用程序的消息泵。
 	return FALSE;
 }
+
+int CCefBrowserApp::ExitInstance()
+{
+    int nResult = CWinAppEx::ExitInstance();
+
+    if(m_pMainWnd != NULL)
+    {
+        delete m_pMainWnd;
+        m_pMainWnd = NULL;
+    }
+
+    return nResult;
+}

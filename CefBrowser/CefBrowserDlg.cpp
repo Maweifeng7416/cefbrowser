@@ -133,6 +133,9 @@ BOOL CCefBrowserDlg::OnInitDialog()
     XGlobal::inst().WndLayout.AddControlById(IDC_EDIT_URL, Layout_HFill | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDOK, Layout_Top | Layout_Right);
     XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BROWSER, Layout_HFill | Layout_VFill);
+    XGlobal::inst().WndLayout.AddControlById(IDC_BTN_BACK, Layout_Right | Layout_Top);
+    XGlobal::inst().WndLayout.AddControlById(IDC_BTN_FORWARD, Layout_Right | Layout_Top);
+    XGlobal::inst().WndLayout.AddControlById(IDC_BTN_REFRESH, Layout_Right | Layout_Top);
 
     XGlobal::inst().TabHost.Init(m_hWnd);
     XGlobal::inst().TabHost.OpenUrl(_T("http://www.youku.com"));

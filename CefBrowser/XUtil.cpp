@@ -132,3 +132,15 @@ CefRefPtr<CefStreamReader> GetBinaryResourceReader(const wchar_t* type, CefStrin
     }
     return NULL;
 }
+
+void ReplaceToken(std::wstring& str, std::wstring& oldToken, std::wstring& newToken)
+{
+    size_t pos = str.find(oldToken);
+    while(pos != std::wstring::npos)
+    {
+        str.replace(pos, oldToken.size(), newToken);
+        pos += newToken.size() - oldToken.size() + 1;
+        pos = str.find(oldToken, pos);
+    }
+}
+

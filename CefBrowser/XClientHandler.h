@@ -1,5 +1,9 @@
 #pragma once
 
+#include <set>
+
+
+
 class XClientHandler : public CefClient,
     public CefContextMenuHandler,
     public CefDisplayHandler,
@@ -69,13 +73,22 @@ public:
         const CefString& title) OVERRIDE;
 
     // CefRequestHandler
+    virtual bool OnBeforeResourceLoad(CefRefPtr<CefBrowser> browser,
+        CefRefPtr<CefFrame> frame,
+        CefRefPtr<CefRequest> request);
     virtual CefRefPtr<CefResourceHandler> GetResourceHandler(
         CefRefPtr<CefBrowser> browser,
         CefRefPtr<CefFrame> frame,
         CefRefPtr<CefRequest> request);
+    virtual void OnProtocolExecution(CefRefPtr<CefBrowser> browser,
+        const CefString& url,
+        bool& allow_os_execution);
 
     // Include the default reference counting implementation.
     IMPLEMENT_REFCOUNTING(XClientHandler);
     // Include the default locking implementation.
     IMPLEMENT_LOCKING(XClientHandler);
+
+    typedef std::set<std::wstring> ProtocalSet;
+    ProtocalSet m_ProtocalSet;
 };

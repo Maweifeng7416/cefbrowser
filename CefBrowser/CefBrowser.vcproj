@@ -304,11 +304,23 @@
 			Name="utils"
 			>
 			<File
+				RelativePath=".\XBuffer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\XGlobal.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\XGlobal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XRegUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XRegUtil.h"
 				>
 			</File>
 			<File
