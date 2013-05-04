@@ -31,7 +31,7 @@ bool XClientHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
                            CefEventHandle os_event,
                            bool* is_keyboard_shortcut)
 {
-    if(event.windows_key_code == VK_F5)
+    if(event.windows_key_code == VK_F5 && event.type == KEYEVENT_RAWKEYDOWN)
     {
         // ´¦ÀíF5Ë¢ÐÂ
         BOOL bIgnoreCache = (event.modifiers == EVENTFLAG_CONTROL_DOWN);
