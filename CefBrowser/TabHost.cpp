@@ -242,6 +242,10 @@ void CTabHost::OnLoadingStateChange(CefRefPtr<CefBrowser> browser, bool isLoadin
 
 void CTabHost::OnAddressChange(CefRefPtr<CefBrowser> browser, const CefString& url)
 {
+    // 如果正在编辑URL，则不修改
+    if(::GetFocus() == m_hEditUrlWnd)
+        return;
+
     if(browser->GetHost()->GetWindowHandle() != m_hVisibleBrowser)
         return;
 
@@ -280,13 +284,16 @@ void CTabHost::GoForward()
     info->browser->GoForward();
 }
 
-void CTabHost::Refresh()
+void CTabHost::Reload(BOOL bIgnoreCache)
 {
     stTabInfo* info = GetTabInfoByButton(m_hVisibleTabButton);
     if(info == NULL)
         return;
 
-    info->browser->Reload();
+    if(bIgnoreCache)
+        info->browser->ReloadIgnoreCache();
+    else
+        info->browser->Reload();
 }
 
 stTabInfo* CTabHost::GetTabInfoByButton(HWND hWndButton)

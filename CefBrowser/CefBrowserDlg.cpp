@@ -245,7 +245,7 @@ void CCefBrowserDlg::OnBnClickedBtnBack()
 
 void CCefBrowserDlg::OnBnClickedBtnRefresh()
 {
-    XGlobal::inst().TabHost.Refresh();
+    XGlobal::inst().TabHost.Reload(FALSE);
 }
 
 void CCefBrowserDlg::OnBnClickedBtnForward()

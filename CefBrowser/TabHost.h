@@ -39,7 +39,7 @@ public:
     // ä¯ÀÀÆ÷¶¯×÷
     void GoBack();
     void GoForward();
-    void Refresh();
+    void Reload(BOOL bIgnoreCache);
 
 protected:
     void GetBrowserRect(RECT& rcBrowser);

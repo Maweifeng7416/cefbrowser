@@ -25,6 +25,21 @@ XClientHandler::~XClientHandler(void)
 }
 
 
+// CefKeyboardHandler
+bool XClientHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+                           const CefKeyEvent& event,
+                           CefEventHandle os_event,
+                           bool* is_keyboard_shortcut)
+{
+    if(event.windows_key_code == VK_F5)
+    {
+        // ´¦ÀíF5Ë¢ÐÂ
+        BOOL bIgnoreCache = (event.modifiers == EVENTFLAG_CONTROL_DOWN);
+        XGlobal::inst().TabHost.Reload(bIgnoreCache);
+    }
+    return false;
+}
+
 bool XClientHandler::OnBeforePopup(CefRefPtr<CefBrowser> browser,
                                   CefRefPtr<CefFrame> frame,
                                   const CefString& target_url,

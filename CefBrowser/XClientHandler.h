@@ -18,6 +18,10 @@ public:
     XClientHandler(void);
     ~XClientHandler(void);
 
+    virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE
+    {
+        return this;
+    }
     virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE
     {
         return this;
@@ -34,6 +38,12 @@ public:
     {
         return this;
     }
+
+    // CefKeyboardHandler
+    virtual bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+        const CefKeyEvent& event,
+        CefEventHandle os_event,
+        bool* is_keyboard_shortcut) OVERRIDE;
 
     // CefLifeSpanHandler methods
     virtual bool OnBeforePopup(CefRefPtr<CefBrowser> browser,
