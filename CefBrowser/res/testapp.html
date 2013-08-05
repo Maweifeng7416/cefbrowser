@@ -20,6 +20,11 @@ function initApp()
 	app.setCallback(onReverseMsg);
 }
 
+function TestApp()
+{
+    window.open ('http://163.com', 'newwindow',"height=200,width=300,left=1365");
+}
+
 initApp();
 
 </script>
@@ -33,6 +38,7 @@ Input Content:<br />
 Reversed Content is: 
 <input type="text" id="reverse_msg" value="" /> <br />
 
+<input type="button" onclick="TestApp();" value="Test App"/>
 
 </body>
 

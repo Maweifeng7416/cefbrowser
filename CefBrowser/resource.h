@@ -14,6 +14,7 @@
 #define IDC_BTN_BACK                    1005
 #define IDC_BTN_FORWARD                 1006
 #define IDC_BTN_REFRESH                 1007
+#define IDC_BTN_NEW                     1009
 
 // Next default values for new objects
 // 

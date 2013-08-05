@@ -101,6 +101,7 @@ BEGIN
     PUSHBUTTON      "后退",IDC_BTN_BACK,238,17,27,14
     PUSHBUTTON      "前进",IDC_BTN_FORWARD,265,17,27,14
     PUSHBUTTON      "刷新",IDC_BTN_REFRESH,292,17,27,14
+    PUSHBUTTON      "新建",IDC_BTN_NEW,211,17,27,14
 END
 
 
@@ -167,8 +168,8 @@ END
 // HTML
 //
 
-testapp.html            HTML                    "res\\testapp.html"
-app.js                  HTML                    "res\\app.js"
+TESTAPP.HTML            HTML                    "res\\testapp.html"
+APP.JS                  HTML                    "res\\app.js"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -217,6 +217,8 @@ CefRefPtr<CefResourceHandler> XClientHandler::GetResourceHandler(
 
         CefRefPtr<CefStreamReader> stream = GetBinaryResourceReader(RT_HTML, strUrl.c_str());
         ASSERT(stream.get());
+        if(stream.get() == NULL)
+            return NULL;
         return new CefStreamResourceHandler("text/html", stream);
     }
 

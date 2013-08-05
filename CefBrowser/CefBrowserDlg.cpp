@@ -86,6 +86,7 @@ BEGIN_MESSAGE_MAP(CCefBrowserDlg, CDialog)
 	//}}AFX_MSG_MAP
     ON_BN_CLICKED(IDOK, &CCefBrowserDlg::OnBnClickedOk)
     ON_BN_CLICKED(IDC_BTN_BACK, &CCefBrowserDlg::OnBnClickedBtnBack)
+    ON_BN_CLICKED(IDC_BTN_NEW, &CCefBrowserDlg::OnBnClickedBtnNew)
     ON_BN_CLICKED(IDC_BTN_REFRESH, &CCefBrowserDlg::OnBnClickedBtnRefresh)
     ON_BN_CLICKED(IDC_BTN_FORWARD, &CCefBrowserDlg::OnBnClickedBtnForward)
 END_MESSAGE_MAP()
@@ -133,6 +134,7 @@ BOOL CCefBrowserDlg::OnInitDialog()
     XGlobal::inst().WndLayout.AddControlById(IDC_EDIT_URL, Layout_HFill | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDOK, Layout_Top | Layout_Right);
     XGlobal::inst().WndLayout.AddControlById(IDC_FRAME_BROWSER, Layout_HFill | Layout_VFill);
+    XGlobal::inst().WndLayout.AddControlById(IDC_BTN_NEW, Layout_Right | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDC_BTN_BACK, Layout_Right | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDC_BTN_FORWARD, Layout_Right | Layout_Top);
     XGlobal::inst().WndLayout.AddControlById(IDC_BTN_REFRESH, Layout_Right | Layout_Top);
@@ -241,6 +243,11 @@ void CCefBrowserDlg::OnBnClickedOk()
 void CCefBrowserDlg::OnBnClickedBtnBack()
 {
     XGlobal::inst().TabHost.GoBack();
+}
+
+void CCefBrowserDlg::OnBnClickedBtnNew()
+{
+    XGlobal::inst().TabHost.CreateTab(_T("about:blank"));
 }
 
 void CCefBrowserDlg::OnBnClickedBtnRefresh()

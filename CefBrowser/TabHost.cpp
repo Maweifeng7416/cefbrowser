@@ -74,7 +74,7 @@ void CTabHost::ShowTab(HWND hTabButton)
 
             stTabInfo& info = *itePrev;
             // ::SetWindowPos(info.hWndBrowser, NULL, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | dwFlag | SWP_ASYNCWINDOWPOS);
-            ::ShowWindow(info.hWndBrowser, dwFlag);
+            ::ShowWindowAsync(info.hWndBrowser, dwFlag);
             if(dwFlag == SW_SHOW)
             {
                 ::SendMessage(m_hVisibleTabButton, BM_SETCHECK, BST_CHECKED, 0);
@@ -83,6 +83,13 @@ void CTabHost::ShowTab(HWND hTabButton)
                 // 同步按钮状态
                 ::EnableWindow(m_hBtnBack, info.browser->CanGoBack());
                 ::EnableWindow(m_hBtnForward, info.browser->CanGoForward());
+
+                CefRefPtr<CefFrame> frame = info.browser->GetMainFrame();
+                if(frame)
+                    ::SetWindowText(m_hEditUrlWnd, frame->GetURL().ToWString().c_str());
+                else
+                    ::SetWindowText(m_hEditUrlWnd, _T(""));
+                AddHistory(info.hWndButton);
             }
             else
             {
@@ -138,15 +145,17 @@ void CTabHost::RemoveTab(CefRefPtr<CefBrowser> browser)
     m_BtnLayout.Remove(info.hWndButton);
     m_BrowLayout.RemoveControlByHwnd(info.hWndBrowser);
     ::DestroyWindow(info.hWndButton);
+    DeleteHistory(info.hWndButton);
     m_vctTabInfo.erase(ite);
 
-    if(m_hVisibleBrowser == browser->GetHost()->GetWindowHandle())
+    HWND hWndBrowser = browser->GetHost()->GetWindowHandle();
+    if(m_hVisibleBrowser == hWndBrowser)
     {
         m_hVisibleBrowser = m_hVisibleTabButton = NULL;
     }
 
-    if(m_vctTabInfo.size() > 0)
-        ShowTab(m_vctTabInfo[0].hWndButton);
+    if(m_TabHistory.size() > 0)
+        ShowTab(*(-- m_TabHistory.end()));
 }
 
 // 用户要求关闭Tab时，调用本方法
@@ -161,15 +170,17 @@ void CTabHost::CloseTab(HWND hWndButton)
     m_BrowLayout.RemoveControlByHwnd(info.hWndBrowser);
     ::DestroyWindow(info.hWndButton);
 
-    if(m_hVisibleBrowser == info.browser->GetHost()->GetWindowHandle())
+    HWND hWndBrowser = info.browser->GetHost()->GetWindowHandle();
+    if(m_hVisibleBrowser == hWndBrowser)
     {
         m_hVisibleBrowser = m_hVisibleTabButton = NULL;
     }
     info.browser->GetHost()->CloseBrowser();
+    DeleteHistory(info.hWndButton);
     m_vctTabInfo.erase(ite);
 
-    if(m_vctTabInfo.size() > 0)
-        ShowTab(m_vctTabInfo[0].hWndButton);
+    if(m_TabHistory.size() > 0)
+        ShowTab(*(-- m_TabHistory.end()));
 }
 
 void CTabHost::AddTabTask(CTabHost* pTabHost, CefRefPtr<CefBrowser> browser)
@@ -336,4 +347,19 @@ TabInfoVector::iterator CTabHost::GetTabInfoByBrowserEx(const CefRefPtr<CefBrows
             break;
     }
     return ite;
+}
+
+void CTabHost::AddHistory(HWND hTabWnd)
+{
+    TabHistory::iterator iteTab = std::find(m_TabHistory.begin(), m_TabHistory.end(), hTabWnd);
+    if(iteTab != m_TabHistory.end())
+        m_TabHistory.erase(iteTab);
+    m_TabHistory.push_back(hTabWnd);
+}
+
+void CTabHost::DeleteHistory(HWND hTabWnd)
+{
+    TabHistory::iterator iteTab = std::find(m_TabHistory.begin(), m_TabHistory.end(), hTabWnd);
+    if(iteTab != m_TabHistory.end())
+        m_TabHistory.erase(iteTab);
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <vector>
 
 struct stTabInfo
@@ -10,6 +11,9 @@ struct stTabInfo
     CefRefPtr<CefBrowser>   browser;
 };
 typedef std::vector<stTabInfo> TabInfoVector;
+
+// 显示过的Tab的History
+typedef std::list<HWND> TabHistory;
 
 class CTabHost
 {
@@ -51,6 +55,9 @@ protected:
     TabInfoVector::iterator GetTabInfoByButtonEx(HWND hWndButton);
     TabInfoVector::iterator GetTabInfoByBrowserEx(const CefRefPtr<CefBrowser> browser);
 
+    void AddHistory(HWND hTabWnd);
+    void DeleteHistory(HWND hTabWnd);
+
 protected:
     HWND    m_hWndHost;
     HWND    m_hEditUrlWnd;
@@ -69,4 +76,6 @@ protected:
 
     HWND        m_hBrowContainer;
     CWndLayout  m_BrowLayout;
+
+    TabHistory  m_TabHistory;
 };
